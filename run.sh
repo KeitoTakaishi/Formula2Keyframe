@@ -1,1 +1,0 @@
-python main.py --out_path ./out/test.txt --freq 2 --preview 

@@ -1,0 +1,1 @@
+python ./main.py --out_path ./out/out.txt --freq 5 --easing easeOutExpo --preview 
