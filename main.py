@@ -26,18 +26,20 @@ def two_mix(x, max_frame):
     return y
 
 
-def repat_easing(x, n, amp):
-    _x = x*n - np.floor(x*n)
-    y = easing.easeInCirc(_x, amp)
+def repeat_easing(x, freq: float, amp):
+    _x = x*freq - np.floor(x*freq)
+    y = easing.easeOutExpo(_x, amp)
     return y
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--out_path")
-    parser.add_argument("--amp", default=3.0)
-    parser.add_argument("--max_frames", default=120)
-    parser.add_argument("--freq", default=5.0)
+    parser.add_argument("--amp", default=3.0, type=float)
+    parser.add_argument("--max_frames", default=120, type=float)
+    parser.add_argument("--freq", default=5.0, type=float)
+    parser.add_argument("--preview", action='store_true')
+
     args = parser.parse_args()
 
     # ----------------------------------------------------------------------------
@@ -53,10 +55,11 @@ if __name__ == '__main__':
     # ----------------------------------------------------------------------------
     x = np.linspace(0, max_frame, max_frame+1)
     nx = x / max_frame
-    y = repat_easing(nx, freq, amp)
+    y = repeat_easing(nx, freq, amp)
 
     #y = two_mix(x, max_frame)
     utils.write(out_path, y)
 
-    pyplot.plot(nx, y)
-    pyplot.show()
+    if args.preview:
+        pyplot.plot(nx, y)
+        pyplot.show()

@@ -14,6 +14,15 @@ def easeOutCubic(x, amp):
 
 
 def easeInCirc(x, amp):
-    #y = 1 - np.sqrt(1 - math.pow(x, 2))
     y = np.sqrt(1 - np.power(x - 1, 2)) * amp
+    return y
+
+
+def easeOutQuart(x, amp):
+    y = 1 - np.power(1 - x, 4) * amp
+    return y
+
+
+def easeOutExpo(x, amp):
+    y = np.where(x == 1.0, 1.0, 1 - np.power(2.0, -10.0 * x)) * amp
     return y
