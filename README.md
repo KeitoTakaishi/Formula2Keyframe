@@ -7,6 +7,9 @@ You can use KeyFrame generated for deforum stable diffusion and etc.
 
 `sudo ./examples/run.sh`
 
+# Example
+![sample](./examples/out.gif)
+
 # Reference
 
 - [easing function](https://easings.net/#easeOutExpo "easing function")
