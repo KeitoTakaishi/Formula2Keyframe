@@ -15,7 +15,7 @@ def read(path):
 
 def write(path, values):
     max_frames = len(values)
-    with open(path, mode='a') as f:
+    with open(path, mode='w') as f:
         for i in range(max_frames):
             s = "{}:({}),".format(i, values[i])
             f.write(s)
