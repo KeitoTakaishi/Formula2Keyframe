@@ -1,1 +1,1 @@
-python ./main.py --out_path ./out/out.txt --freq 5 --easing easeOutExpo --preview 
+python ./main.py --out_path ./out/out.txt --amp 0.2 --freq 5 --easing easeOutExpo --preview 
