@@ -1,1 +1,1 @@
-python ./main.py --out_path ./out/out.txt --amp 7.0 --freq 10 --offset 0.5 --easing easeOutExpo --preview 
+python ./main.py --out_path ./out/out.txt --amp 1.0 --freq 12 --offset 0.0 --easing easeOutExpo --preview 

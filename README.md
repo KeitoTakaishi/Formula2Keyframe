@@ -10,6 +10,8 @@ You can use KeyFrame generated for deforum stable diffusion and etc.
 # Example
 ![sample](./examples/out.gif)
 
+![sample](./examples/keyframe.png)
+
 # Reference
 
 - [easing function](https://easings.net/#easeOutExpo "easing function")
