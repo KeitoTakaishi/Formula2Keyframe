@@ -26,8 +26,12 @@ def two_mix(x, max_frame):
     return y
 
 
-def repeat_easing(x, freq: float, amp, ease_type):
+def repeat_easing(x, freq: float, amp, offsets, ease_type):
+    print(offsets)
     _x = x*freq - np.floor(x*freq)
+    _x = np.fmod(_x + offsets, 1.0) 
+    print(_x)
+    
 
     if ease_type == 'easeOutSine':
         y = easing.easeOutSine(_x, amp)
@@ -50,8 +54,10 @@ if __name__ == '__main__':
     parser.add_argument("--amp", default=3.0, type=float)
     parser.add_argument("--max_frames", default=120, type=float)
     parser.add_argument("--freq", default=5.0, type=float)
+    parser.add_argument("--offset", default=0.0, type=float)
     parser.add_argument("--preview", action='store_true')
     parser.add_argument("--easing", default='easeOutCubic')
+
 
     args = parser.parse_args()
 
@@ -65,11 +71,15 @@ if __name__ == '__main__':
     max_frame = args.max_frames
     freq = args.freq
     amp = args.amp
+    offset = args.offset
     ease_type = args.easing
     # ----------------------------------------------------------------------------
     x = np.linspace(0, max_frame, max_frame+1)
     nx = x / max_frame
-    y = repeat_easing(nx, freq, amp, ease_type)
+    offsets = np.ones(x.shape) * offset
+    
+
+    y = repeat_easing(nx, freq, amp, offsets, ease_type)
 
     #y = two_mix(x, max_frame)
     utils.write(out_path, y)
