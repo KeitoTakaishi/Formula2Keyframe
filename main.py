@@ -49,12 +49,17 @@ def repeat_easing(x, freq: float, amp, offsets, ease_type):
     return y
 
 
+def map_value(value, inputMin, inputMax, outputMin, outputMax):
+    return ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--out_path")
     parser.add_argument("--amp", default=3.0, type=float)
-    parser.add_argument("--max_frames", default=60, type=float)
+    parser.add_argument("--max_frames", default=60, type=int)
     parser.add_argument("--freq", default=5.0, type=float)
+    parser.add_argument("--min_value", default=0.0, type=float)
     parser.add_argument("--offset", default=0.0, type=float)
     parser.add_argument("--preview", action='store_true')
     parser.add_argument("--easing", default='easeOutCubic')
@@ -72,6 +77,7 @@ if __name__ == '__main__':
     max_frame = args.max_frames
     freq = args.freq
     amp = args.amp
+    min_value = args.min_value
     offset = args.offset
     ease_type = args.easing
     # ----------------------------------------------------------------------------
@@ -83,6 +89,8 @@ if __name__ == '__main__':
     
 
     y = repeat_easing(nx, freq, amp, offsets, ease_type)
+    y = [map_value(y_, 0.0, amp, min_value, amp) for y_ in y]
+    print(y)
 
     #y = two_mix(x, max_frame)
     utils.write(out_path, y)
