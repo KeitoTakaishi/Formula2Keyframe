@@ -28,10 +28,10 @@ def two_mix(x, max_frame):
 
 def repeat_easing(x, freq: float, amp, offsets, ease_type):
     
-    _x = np.where(x == 1.0, 1.0, x*freq - np.floor(x*freq))
-    #_x = x*freq - np.floor(x*freq)
+    #_x = np.where(x == 1.0, 1.0, x*freq - np.floor(x*freq))
+    _x = x*freq - np.floor(x*freq)
     #_x = np.fmod(_x + offsets, 1.0) 
-    print(_x)
+    #print(_x)
     
 
     if ease_type == 'easeOutSine':
