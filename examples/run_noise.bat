@@ -1,1 +1,1 @@
-python ./main.py --out_path ./out/out.txt --formulra_type noise --amp 3.0 --freq 1 --offset 0.0 --easing easeOutExpo --preview
+python ./main.py --out_path ./out/out.txt --max_frames 600 --formulra_type noise --amp 3.0 --noise_loop 5 --preview

@@ -27,8 +27,10 @@ def two_mix(x, max_frame):
 
 
 def repeat_easing(x, args):
-    #_x = np.where(x == 1.0, 1.0, x*freq - np.floor(x*freq))
-    _x = x*args.freq - np.floor(x*args.freq)
+    if args.ease_loop:
+        _x = x*args.freq - np.floor(x*args.freq)
+    else:
+        _x = np.where(x == 1.0, 1.0, x*freq - np.floor(x*freq))
     #_x = np.fmod(_x + offsets, 1.0) 
     if args.easing == 'easeOutSine':
         y = easing.easeOutSine(_x, args.amp)
@@ -50,7 +52,7 @@ def noise2keyframe(x, args):
     noise_values = np.zeros((sample_num))
 
     for i in range(args.noise_loop):
-        w = pow(2, (i+3))
+        w = pow(2, (i+1))
         values = np.array([[noise.Perlin.noise(x, y)
                             for x in np.linspace(0, w, 1)]
                         for y in np.linspace(0, w, sample_num)])
@@ -71,10 +73,10 @@ if __name__ == '__main__':
     parser.add_argument("--freq", default=5.0, type=float)
     parser.add_argument("--min_value", default=0.0, type=float)
     parser.add_argument("--offset", default=0.0, type=float)
-    parser.add_argument("--noise_loop", default=3, type=int)
+    parser.add_argument("--noise_loop", default=4, type=int)
+    parser.add_argument("--ease_loop", action='store_true')
     parser.add_argument("--preview", action='store_true')
     
-
     args = parser.parse_args()
     out_path = args.out_path
     max_frame = args.max_frames
