@@ -1,0 +1,1 @@
+python ./main.py --out_path ./out/out.txt --formulra_type noise --amp 3.0 --freq 1 --offset 0.0 --easing easeOutExpo --preview
