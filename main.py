@@ -1,11 +1,11 @@
 import os
 import re
 import numpy as np
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 import math
 import utils.easing as easing
+import utils.noise as noise
 import utils.utils as utils
-
 import argparse
 
 
@@ -26,75 +26,84 @@ def two_mix(x, max_frame):
     return y
 
 
-def repeat_easing(x, freq: float, amp, offsets, ease_type):
-    
+def repeat_easing(x, args):
     #_x = np.where(x == 1.0, 1.0, x*freq - np.floor(x*freq))
-    _x = x*freq - np.floor(x*freq)
+    _x = x*args.freq - np.floor(x*args.freq)
     #_x = np.fmod(_x + offsets, 1.0) 
-    #print(_x)
-    
-
-    if ease_type == 'easeOutSine':
-        y = easing.easeOutSine(_x, amp)
-    elif ease_type == 'easeOutCubic':
-        y = easing.easeOutCubic(_x, amp)
-    elif ease_type == 'easeInCirc':
-        y = easing.easeInCirc(_x, amp)
-    elif ease_type == 'easeOutQuart':
-        y = easing.easeOutQuart(_x, amp)
-    elif ease_type == 'easeOutExpo':
-        y = easing.easeOutExpo(_x, amp)
+    if args.easing == 'easeOutSine':
+        y = easing.easeOutSine(_x, args.amp)
+    elif args.easing == 'easeOutCubic':
+        y = easing.easeOutCubic(_x, args.amp)
+    elif args.easing == 'easeInCirc':
+        y = easing.easeInCirc(_x, args.amp)
+    elif args.easing == 'easeOutQuart':
+        y = easing.easeOutQuart(_x, args.amp)
+    elif args.easing == 'easeOutExpo':
+        y = easing.easeOutExpo(_x, args.amp)
     else:
         return
     return y
 
 
-def map_value(value, inputMin, inputMax, outputMin, outputMax):
-    return ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
+def noise2keyframe(x, args):
+    sample_num = len(x)
+    noise_values = np.zeros((sample_num))
 
+    for i in range(args.noise_loop):
+        w = pow(2, (i+3))
+        values = np.array([[noise.Perlin.noise(x, y)
+                            for x in np.linspace(0, w, 1)]
+                        for y in np.linspace(0, w, sample_num)])
+        values = values.squeeze() + 0.5
+        #noise_values = noise_values + values    
+        noise_values = values
+    noise_values = (noise_values / args.noise_loop)*20.0*args.amp
+
+    return noise_values
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--out_path")
+    parser.add_argument("--formulra_type", default='noise', choices=["easing","noise"])
+    parser.add_argument("--max_frames", default=120, type=int)
     parser.add_argument("--amp", default=3.0, type=float)
-    parser.add_argument("--max_frames", default=60, type=int)
+    parser.add_argument("--easing", default='easeOutCubic')
     parser.add_argument("--freq", default=5.0, type=float)
     parser.add_argument("--min_value", default=0.0, type=float)
     parser.add_argument("--offset", default=0.0, type=float)
+    parser.add_argument("--noise_loop", default=3, type=int)
     parser.add_argument("--preview", action='store_true')
-    parser.add_argument("--easing", default='easeOutCubic')
-
+    
 
     args = parser.parse_args()
-
-    # ----------------------------------------------------------------------------
-    # path = './motion_preset.txt'
-    # values = read(path)
-    # values = mul(values, 2.0)
-    # values = invert(values)
-
     out_path = args.out_path
     max_frame = args.max_frames
+    formulra_type = args.formulra_type
+
+    #noise
+    #easing
+    ease_type = args.easing
     freq = args.freq
     amp = args.amp
     min_value = args.min_value
     offset = args.offset
-    ease_type = args.easing
-    # ----------------------------------------------------------------------------
-    x = np.linspace(0, max_frame, max_frame+1)
-
-    nx = x / (max_frame)
-    print(nx)
-    offsets = np.ones(x.shape) * offset
     
 
-    y = repeat_easing(nx, freq, amp, offsets, ease_type)
-    y = [map_value(y_, 0.0, amp, min_value, amp) for y_ in y]
-    print(y)
-
-    #y = two_mix(x, max_frame)
-    utils.write(out_path, y)
+    # ----------------------------------------------------------------------------
+    x = np.linspace(0, max_frame, max_frame+1)
+    nx = x / (max_frame)
+    keyframe_values = np.zeros(max_frame+1)
+    
+    
+    if formulra_type == "easing":
+        keyframe_values = repeat_easing(nx, args)
+    elif formulra_type == "noise":
+        keyframe_values = noise2keyframe(nx, args)
+   
+    #y = [utils.map_value(y_, 0.0, amp, min_value, amp) for y_ in keyframe_values]
+    utils.write(out_path, keyframe_values)
 
     if args.preview:
-        pyplot.plot(nx, y)
-        pyplot.show()
+        plt.plot(nx, keyframe_values)
+        plt.show()
+    

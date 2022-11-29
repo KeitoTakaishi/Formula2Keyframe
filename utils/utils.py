@@ -35,3 +35,6 @@ def invert(values):
         inv_value = -1.0 * v
         inv_values.append(inv_value)
     return inv_values
+
+def map_value(value, inputMin, inputMax, outputMin, outputMax):
+    return ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
