@@ -1,11 +1,7 @@
 # About
 
-This project generates KeyFrame using Easing Functions.
+This project generates KeyFrame using Formula.
 You can use KeyFrame generated for deforum stable diffusion and etc.
-
-# How to use
-
-`sudo ./examples/run.sh`
 
 # Example
 ![sample](./examples/out.gif)
