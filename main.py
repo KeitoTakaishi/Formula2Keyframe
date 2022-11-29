@@ -42,8 +42,10 @@ def repeat_easing(x, args):
         y = easing.easeOutQuart(_x, args.amp)
     elif args.easing == 'easeOutExpo':
         y = easing.easeOutExpo(_x, args.amp)
+    elif args.easing == 'easeInQuint':
+        y = easing.easeInQuint(_x, args.amp)
     else:
-        return
+        pass
     return y
 
 
@@ -102,7 +104,8 @@ if __name__ == '__main__':
     elif formula_type == "noise":
         keyframe_values = noise2keyframe(nx, args)
    
-    #y = [utils.map_value(y_, 0.0, amp, min_value, amp) for y_ in keyframe_values]
+
+    keyframe_values = [utils.map_value(y_, 0.0, amp, min_value, amp) for y_ in keyframe_values]
     utils.write(out_path, keyframe_values)
 
     if args.preview:
