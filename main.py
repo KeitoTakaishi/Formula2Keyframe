@@ -66,7 +66,7 @@ def noise2keyframe(x, args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--out_path")
-    parser.add_argument("--formulra_type", default='noise', choices=["easing","noise"])
+    parser.add_argument("--formula_type", default='noise', choices=["easing","noise"])
     parser.add_argument("--max_frames", default=120, type=int)
     parser.add_argument("--amp", default=3.0, type=float)
     parser.add_argument("--easing", default='easeOutCubic')
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     out_path = args.out_path
     max_frame = args.max_frames
-    formulra_type = args.formulra_type
+    formula_type = args.formula_type
 
     #noise
     #easing
@@ -97,9 +97,9 @@ if __name__ == '__main__':
     keyframe_values = np.zeros(max_frame+1)
     
     
-    if formulra_type == "easing":
+    if formula_type == "easing":
         keyframe_values = repeat_easing(nx, args)
-    elif formulra_type == "noise":
+    elif formula_type == "noise":
         keyframe_values = noise2keyframe(nx, args)
    
     #y = [utils.map_value(y_, 0.0, amp, min_value, amp) for y_ in keyframe_values]
