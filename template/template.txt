@@ -1,10 +1,10 @@
 {
-    "batch_name":"camnoise_morph02_01",
+    "batch_name":"camnoise_morph03_02",
     "n_batch": 1,   
     "prompts":[],
     "width":512,
     "height":512,
-    "seed":3521683336,
+    "seed":3521683337,
     "seed_behavior":"iter",
     "sampler":"klms",
     "steps":50,
@@ -19,10 +19,10 @@
     "invert_mask":false,
     "mask_file":"",
     "animation_prompts":{
-        "0": "highly detailed cinematic portrait of an old wrinkled hand. Strong keylight, realistic, grayscale",
-        "300": "single botantical leaf print veins venation structure like aerial photograph of roads in a city, realistic 8k, insanely detailed, grayscale, shot by jimmy nelson",
+        "0": "highly detailed cinematic of cell to cell. grayscale, a microscopic photo by earnst haeckel. polycount shutterstock contest winner, microbiology, neoplasticism. biomorphic, creative commons, fractalism, minimalist macro photography.",
+        "300": "highly detailed cinematic portrait of an old wrinkled hand. Strong keylight, realistic, grayscale",
         "600": "closeup photograph of retina and eye, 8k, insanely detailed, grayscale, highly detailed cinematic",
-        "1200": "Aerial shot of the Complicated highway bridges, areal view, realistic 8k, insanely detailed,grayscale"
+        "900": "Aerial shot of the Complicated highway bridges, areal view, realistic 8k, insanely detailed,grayscale"
     },
     "animation_mode":"3D",  
     "max_frames":1201,
@@ -30,18 +30,17 @@
     "border":"warp",
     "angle":"0:(1.0)",
     "zoom":"0:(0)", 
-
-    "translation_x":
-
+    "translation_x":"0:(0.0)",
     
-    "translation_y":
+    "translation_y":"0:(0.0)",
 
-    "translation_z":"0:(1.0)",
-    "rotation_3d_x":"0:(0)",
-    "rotation_3d_y":"0:(0.0)",  
+    "translation_z":"0:(0.0)",
+    "rotation_3d_x":
+
+    "rotation_3d_y":  
     
     "rotation_3d_z":
-
+    
     "noise_schedule":"0:(0.04)",
     "strength_schedule":"0:(0.65)",
     "contrast_schedule":"0:(1.0)",
