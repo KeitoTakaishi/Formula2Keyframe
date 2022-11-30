@@ -1,0 +1,63 @@
+{
+    "batch_name":"camnoise_morph02_01",
+    "n_batch": 1,   
+    "prompts":[],
+    "width":512,
+    "height":512,
+    "seed":3521683336,
+    "seed_behavior":"iter",
+    "sampler":"klms",
+    "steps":50,
+    "scale":7.0,
+    "ddim_eta":0.0,
+    "filename_format":"{timestring}_{index}_{prompt}.png",
+    "use_init":false,
+    "init_image":"",
+    "strength":0.0,
+    "use_mask":false,
+    "use_alpha_as_mask":false,
+    "invert_mask":false,
+    "mask_file":"",
+    "animation_prompts":{
+        "0": "highly detailed cinematic portrait of an old wrinkled hand. Strong keylight, realistic, grayscale",
+        "300": "single botantical leaf print veins venation structure like aerial photograph of roads in a city, realistic 8k, insanely detailed, grayscale, shot by jimmy nelson",
+        "600": "closeup photograph of retina and eye, 8k, insanely detailed, grayscale, highly detailed cinematic",
+        "1200": "Aerial shot of the Complicated highway bridges, areal view, realistic 8k, insanely detailed,grayscale"
+    },
+    "animation_mode":"3D",  
+    "max_frames":1201,
+    "diffusion_cadence":"1",
+    "border":"warp",
+    "angle":"0:(1.0)",
+    "zoom":"0:(0)", 
+
+    "translation_x":
+
+    
+    "translation_y":
+
+    "translation_z":"0:(1.0)",
+    "rotation_3d_x":"0:(0)",
+    "rotation_3d_y":"0:(0.0)",  
+    
+    "rotation_3d_z":
+
+    "noise_schedule":"0:(0.04)",
+    "strength_schedule":"0:(0.65)",
+    "contrast_schedule":"0:(1.0)",
+    "color_coherence":"Match Frame 0 LAB",
+    "use_depth_warping":true,
+    "midas_weight":0.3,
+    "near_plane":200,
+    "far_plane":10000,  
+    "fov":40,
+    "padding_mode":"border",
+    "sampling_mode":"bicubic",
+    "save_depth_maps":false,
+    "video_init_path":"./input/video_in",
+    "extract_nth_frame":1,
+    "interpolate_key_frames":true,
+    "interpolate_x_frames":10,
+    "resume_from_timestring":false,
+    "resume_timestring":"20220829210106"
+}   
