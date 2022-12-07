@@ -32,6 +32,7 @@ def repeat_easing(x, args):
     else:
         _x = np.where(x == 1.0, 1.0, x*freq - np.floor(x*freq))
     #_x = np.fmod(_x + offsets, 1.0)
+
     if args.easing == 'easeOutSine':
         y = easing.easeOutSine(_x, args.amp)
     elif args.easing == 'easeOutCubic':
@@ -44,6 +45,8 @@ def repeat_easing(x, args):
         y = easing.easeOutExpo(_x, args.amp)
     elif args.easing == 'easeInQuint':
         y = easing.easeInQuint(_x, args.amp)
+    elif args.easing == 'easeInCubic':
+        y = easing.easeInCubic(_x, args.amp)
     else:
         pass
     return y
@@ -59,10 +62,30 @@ def noise2keyframe(x, args):
                             for x in np.linspace(0, w, 1)]
                            for y in np.linspace(0, w, sample_num)])
         values = values.squeeze() + 0.5
-        #noise_values = noise_values + values
+        noise_values = noise_values + values
         noise_values = values
     noise_values = (noise_values / args.noise_loop)*20.0*args.amp
+    if args.noise_abs:
+        noise_values = np.abs(noise_values)
+    return noise_values
 
+
+def noise2keyframe_dev(x, args):
+    sample_num = len(x)
+    noise_values = np.zeros((sample_num))
+
+    for i in range(args.noise_loop):
+        w = pow(2, (i))
+        print("noise loop w : {}".format(w))
+        values = np.array([[noise.Perlin.noise(x, y)
+                            for x in np.linspace(0, w, 1)]
+                           for y in np.linspace(0, w, sample_num)])
+        #values = values.squeeze() + 0.5
+        #noise_values = noise_values + values
+        noise_values = values
+    #noise_values = (noise_values / args.noise_loop)*20.0*args.amp
+    if args.noise_abs:
+        noise_values = np.abs(noise_values)
     return noise_values
 
 
@@ -72,13 +95,16 @@ if __name__ == '__main__':
     parser.add_argument("--formula_type", default='noise',
                         choices=["easing", "noise"])
     parser.add_argument("--max_frames", default=120, type=int)
-    parser.add_argument("--amp", default=3.0, type=float)
+    parser.add_argument("--amp", default=1.0, type=float)
     parser.add_argument("--easing", default='easeOutCubic')
     parser.add_argument("--freq", default=5.0, type=float)
     parser.add_argument("--min_value", default=0.0, type=float)
+    parser.add_argument("--max_value", default=1.0, type=float)
     parser.add_argument("--offset", default=0.0, type=float)
     parser.add_argument("--noise_loop", default=4, type=int)
+    parser.add_argument("--noise_abs", action='store_true')
     parser.add_argument("--ease_loop", action='store_true')
+    parser.add_argument("--inv", action='store_true')
     parser.add_argument("--preview", action='store_true')
 
     args = parser.parse_args()
@@ -92,6 +118,7 @@ if __name__ == '__main__':
     freq = args.freq
     amp = args.amp
     min_value = args.min_value
+    max_value = args.max_value
     offset = args.offset
 
     # ----------------------------------------------------------------------------
@@ -100,15 +127,27 @@ if __name__ == '__main__':
     keyframe_values = np.zeros(max_frame+1)
 
     if formula_type == "easing":
+        print("formula_type : easing")
         keyframe_values = repeat_easing(nx, args)
+        #keyframe_values = 1.0 - keyframe_values
     elif formula_type == "noise":
+        print("formula_type : noise")
         keyframe_values = noise2keyframe(nx, args)
+        #keyframe_values = noise2keyframe_dev(nx, args)
+
+    # keyframe_values = [utils.map_value(
+    #     y_, 0.0, amp, min_value, amp) for y_ in keyframe_values]
 
     keyframe_values = [utils.map_value(
-        y_, 0.0, amp, min_value, amp) for y_ in keyframe_values]
+        y_, 0.0, amp, min_value, max_value * amp) for y_ in keyframe_values]
+
     keyframe_values = np.round(keyframe_values, 3)
+
+    if args.inv == True:
+        keyframe_values = [max_value - v for v in keyframe_values]
+
     utils.write(out_path, keyframe_values)
 
     if args.preview:
-        plt.plot(nx, keyframe_values)
+        plt.plot(x, keyframe_values)
         plt.show()
