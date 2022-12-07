@@ -7,6 +7,7 @@ def easeOutSine(x, amp):
     y = np.sin((x * math.pi) / 2) * amp
     return y
 
+
 def easeOutCubic(x, amp):
     y = np.sin((x * math.pi) / 2) * amp
     return y
@@ -14,6 +15,11 @@ def easeOutCubic(x, amp):
 
 def easeInCirc(x, amp):
     y = np.sqrt(1 - np.power(x - 1, 2)) * amp
+    return y
+
+
+def easeInCubic(x, amp):
+    y = np.power(x, 3) * amp
     return y
 
 
